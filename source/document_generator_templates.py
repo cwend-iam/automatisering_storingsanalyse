@@ -15,8 +15,8 @@ class DocumentGenerator:
     def __init__(self, project: str, api_key: str, rapport_type: str, quarter: str, year: str, staging_file_name: str = None) -> None:
         self.sa = StoringsAnalyse(project, api_key, rapport_type, quarter, year, staging_file_name)
 
-        self._default_export_file_name = f"TEST_{self.sa.quarter}_{self.sa.year}_storingsanalyse_tekst.docx"
-        self._default_export_file_name_appendix = f"TEST_{self.sa.quarter}_{self.sa.year}_storingsanalyse_bijlage.pdf"
+        self._default_export_file_name = f"{self.sa.quarter}_{self.sa.year}_storingsanalyse_tekst.docx"
+        self._default_export_file_name_appendix = f"{self.sa.quarter}_{self.sa.year}_storingsanalyse_bijlage.pdf"
 
         self.template_folder = "resources\\document_templates"
         self.rendered_document_folder = "resources\\temp"
@@ -409,10 +409,10 @@ class DocumentGenerator:
         self.create_rendered_document(data_package=storingsanalyse_data_package,
                                       template_file='storingsanalyse_template.docx')
 
-    def build_appendix(self, path_to_folder: str = "", threshold: int = 0):
+    def build_appendix(self, threshold: int = 0):
         print('Creating file ' + self._default_export_file_name_appendix)
 
-        _file_name = os.path.join(path_to_folder, self._default_export_file_name_appendix)
+        _file_name = self._default_export_file_name_appendix
 
         #
         # Aantal meldingen per deelinstallatie
@@ -615,6 +615,7 @@ class DocumentGenerator:
         # Exporting appendix
         #
         self.sa.export_graphs(filename=os.path.join(self.default_export_location, _file_name))
+
         print('Finished.')
 
 
